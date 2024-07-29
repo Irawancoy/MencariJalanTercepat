@@ -1,27 +1,43 @@
 package MencariJalanTercepat;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class JalanTercepat {
-    static int[] baris = { -1, 1, 0, 0 };
-    static int[] kolom = { 0, 0, -1, 1 };
-    static String[] arah = { "atas", "bawah", "kiri", "kanan" };
+    static int[] baris = {-1, 1, 0, 0};
+    static int[] kolom = {0, 0, -1, 1};
+    static String[] arah = {"atas", "bawah", "kiri", "kanan"};
     static String start = "^";
     static String end = "*";
     static String wall = "#";
 
     public static void main(String[] args) {
         String[][] peta = {
-                { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
-                { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "*", "#" },
-                { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
-                { "#", " ", " ", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", " ", " ", "#" },
-                { "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
-                { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "#" },
-                { "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
-                { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "^", " ", " ", " ", "#" },
-                { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" }
-        };
+            { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
+            { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "*", "#" },
+            { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
+            { "#", " ", " ", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", " ", " ", "#" },
+            { "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
+            { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "#" },
+            { "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" },
+            { "#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "^", " ", " ", " ", "#" },
+            { "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#" }
+    };
+
+        // String[][] peta = {
+        //         {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"},
+        //         {"#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "*", "#"},
+        //         {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#"},
+        //         {"#", " ", " ", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", "#", " ", " ", " ", " ", " ", " ", " ", "#"},
+        //         {"#", " ", "#", "#", "#", "#", "#", "#", "#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#"},
+        //         {"#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "#"},
+        //         {"#", " ", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", " ", "#"},
+        //         {"#", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", " ", "^", " ", " ", " ", "#"},
+        //         {"#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#", "#"}
+        // };
+
+        // String[][] peta = {
+        //         { "#", "*", "#","^", "#" } };
 
         for (String[] strings : peta) {
             for (String string : strings) {
@@ -30,11 +46,11 @@ public class JalanTercepat {
             System.out.println();
         }
 
-        List<String> path = new ArrayList<>();
-        List<String> directionsList = new ArrayList<>();
         int rows = peta.length;
         int cols = peta[0].length;
         int startRow = -1, startCol = -1, endRow = -1, endCol = -1;
+
+        // Cari titik awal dan akhir
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 if (peta[i][j].equals(start)) {
@@ -49,59 +65,63 @@ public class JalanTercepat {
 
         if (startRow == -1 || endRow == -1) {
             System.out.println("Tidak ada jalan");
-        } else {
-            boolean[][] visited = new boolean[rows][cols];
-            dfs(peta, startRow, startCol, endRow, endCol, visited, path, directionsList, new ArrayList<>());
+            return;
         }
 
-        int count = 1;
-        for (int i = directionsList.size() - 1; i > 0; i--) {
-            if (directionsList.get(i).equals(directionsList.get(i - 1))) {
-                count++;
-            } else {
-                System.out.println(directionsList.get(i) + " " + count);
-                count = 1;
-            }
-        }
-        if (!directionsList.isEmpty()) {
-           System.out.println(directionsList.get(0) + " " + count);
-        }
-        // Menampilkan total langkah yang diambil
-         if(!directionsList.isEmpty()){
-            System.out.println("Total langkah yang diambil: " + directionsList.size());
-         }else{
-            System.out.println("Tidak ada jalan");
-         }
-    }
+        boolean[][] visited = new boolean[rows][cols];
+        List<int[]> queue = new ArrayList<>();
+        List<String> directions = new ArrayList<>();
+        queue.add(new int[]{startRow, startCol});
+        directions.add("");
 
-            
-    private static boolean dfs(String[][] peta, int row, int col, int endRow, int endCol, boolean[][] visited, List<String> path, List<String> directionsList, List<String> currentPath) {
-        if (row == endRow && col == endCol) {
-            path.addAll(currentPath);
-            return true;
-        }
+        int index = 0;
+        List<String> path = null;
 
-        visited[row][col] = true;
+        while (index < queue.size()) {
+            int[] cell = queue.get(index);
+            String direction = directions.get(index);
+            int row = cell[0], col = cell[1];
+            index++;
 
-        for (int i = 0; i < 4; i++) {
-            int newRow = row + baris[i];
-            int newCol = col + kolom[i];
-            if (isValidMove(newRow, newCol, peta, visited)) {
-                currentPath.add(row + "," + col);
-                if (dfs(peta, newRow, newCol, endRow, endCol, visited, path, directionsList, currentPath)) {
-                    directionsList.add(arah[i]);
-                    return true;
+            if (row == endRow && col == endCol) {
+                path = new ArrayList<>();
+                for (String dir : direction.split(",")) {
+                    if (!dir.isEmpty()) {
+                        path.add(dir);
+                    }
                 }
-                currentPath.remove(currentPath.size() - 1);
+                break;
+            }
+
+            visited[row][col] = true;
+
+            for (int i = 0; i < 4; i++) {
+                int newRow = row + baris[i];
+                int newCol = col + kolom[i];
+                if (newRow >= 0 && newRow < peta.length && newCol >= 0 && newCol < peta[0].length 
+                        && !peta[newRow][newCol].equals(wall) && !visited[newRow][newCol]) {
+                    queue.add(new int[]{newRow, newCol});
+                    directions.add(direction + "," + arah[i]);
+                }
             }
         }
 
-        visited[row][col] = false;
-        return false;
-    }
-
-    private static boolean isValidMove(int row, int col, String[][] peta, boolean[][] visited) {
-                
-        return row >= 0 && row < peta.length && col >= 0 && col < peta[0].length && !peta[row][col].equals(wall) && !visited[row][col];
+        if (path == null) {
+            System.out.println("Tidak ada jalan");
+        } else {
+            int count = 1;
+            for (int i = 0; i < path.size() - 1; i++) {
+                if (path.get(i).equals(path.get(i + 1))) {
+                    count++;
+                } else {
+                    System.out.println(count +" "+ path.get(i));
+                    count = 1;
+                }
+            }
+            if (!path.isEmpty()) {
+                System.out.println(path.get(path.size() - 1) + " " + count);
+            }
+            System.out.println(path.size() + " langkah");
+        }
     }
 }
